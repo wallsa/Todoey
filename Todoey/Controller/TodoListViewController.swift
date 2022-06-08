@@ -9,12 +9,16 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     var itemArray = [Item]()
     //instanciamos o UserDefaults que irá salvar os dados na sandbox do app no Iphone
-    let defaults = UserDefaults.standard
+//    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = UIColor.systemBlue
@@ -26,8 +30,10 @@ class TodoListViewController: UITableViewController {
         newItem.title = "Do Something"
         itemArray.append(newItem)
         
-//        if let lista = defaults.array(forKey: "TodoListArray") as? [String] {
-//            itemArray = lista
+        loadItens()
+        
+//        if let lista = defaults.array(forKey: "TodoListArray") as? [Item] {
+//         itemArray = lista
 //        }
     }
     //MARK: - Table View DataSource Methods
@@ -46,11 +52,11 @@ class TodoListViewController: UITableViewController {
         
         cell.accessoryType = item.done == true ? .checkmark : .none
         
-//        if itemArray[indexPath.row].done == true{
-//            cell.accessoryType = .checkmark
-//        } else{
-//            cell.accessoryType = .none
-//        }
+        //        if itemArray[indexPath.row].done == true{
+        //            cell.accessoryType = .checkmark
+        //        } else{
+        //            cell.accessoryType = .none
+        //        }
         return cell
     }
     
@@ -61,7 +67,7 @@ class TodoListViewController: UITableViewController {
         //aqui estamos revertendo o resultado da propriedade done com o operador NOT
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        tableView.reloadData()
+        saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     //MARK: - Add New Itens
@@ -70,7 +76,7 @@ class TodoListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { action in
-           
+            
             let newItem = Item()
             
             guard let safeText = textField.text else {return}
@@ -79,21 +85,43 @@ class TodoListViewController: UITableViewController {
             //Após adicionarmos o item digitado pelo usuario no Array
             //Armazenamos a Array com em um dic de chave TodoListArray
             
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            //Enconding Data with NSCoder
+            self.saveItems()
             
-            
-            self.tableView.reloadData()
             print(textField.text!)
         }
         alert.addTextField { alertTextField in
             alertTextField.placeholder = "Create new Item"
-
+            
             textField = alertTextField
             
         }
         alert.addAction(action)
         present(alert, animated: true)
         
+    }
+    
+    func saveItems(){
+        let encoder = PropertyListEncoder()
+        
+        do{
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        }catch{
+            print(error)
+        }
+        self.tableView.reloadData()
+    }
+    
+    func loadItens(){
+        if let data = try? Data(contentsOf: dataFilePath!){
+            let decoder = PropertyListDecoder()
+            do{
+                itemArray = try decoder.decode([Item].self, from: data)
+            }catch{
+                print(error)
+            }
+        }
     }
 }
 
