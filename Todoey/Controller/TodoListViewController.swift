@@ -6,18 +6,21 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
     
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var itemArray = [Item]()
     //instanciamos o UserDefaults que irá salvar os dados na sandbox do app no Iphone
-//    let defaults = UserDefaults.standard
+    //    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -26,17 +29,15 @@ class TodoListViewController: UITableViewController {
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
         
-        let newItem = Item()
-        newItem.title = "Do Something"
-        itemArray.append(newItem)
+        
         
         loadItens()
         
-//        if let lista = defaults.array(forKey: "TodoListArray") as? [Item] {
-//         itemArray = lista
-//        }
+        //        if let lista = defaults.array(forKey: "TodoListArray") as? [Item] {
+        //         itemArray = lista
+        //        }
     }
-    //MARK: - Table View DataSource Methods
+    //MARK: - Table View DataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -60,7 +61,7 @@ class TodoListViewController: UITableViewController {
         return cell
     }
     
-    //MARK: - TableView Delegate Methods
+    //MARK: - TableView Delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -77,18 +78,16 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { action in
             
-            let newItem = Item()
+            let newItem = Item(context: self.context)
             
             guard let safeText = textField.text else {return}
             newItem.title = safeText
+            newItem.done = false
             self.itemArray.append(newItem)
             //Após adicionarmos o item digitado pelo usuario no Array
-            //Armazenamos a Array com em um dic de chave TodoListArray
-            
-            //Enconding Data with NSCoder
+        
             self.saveItems()
-            
-            print(textField.text!)
+
         }
         alert.addTextField { alertTextField in
             alertTextField.placeholder = "Create new Item"
@@ -100,27 +99,24 @@ class TodoListViewController: UITableViewController {
         present(alert, animated: true)
         
     }
+//MARK: - CORE BASE
     
     func saveItems(){
-        let encoder = PropertyListEncoder()
         
         do{
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         }catch{
             print(error)
         }
         self.tableView.reloadData()
-    }
+    }   
     
     func loadItens(){
-        if let data = try? Data(contentsOf: dataFilePath!){
-            let decoder = PropertyListDecoder()
-            do{
-                itemArray = try decoder.decode([Item].self, from: data)
-            }catch{
-                print(error)
-            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do{
+            itemArray = try context.fetch(request)
+        }catch{
+            print(error)
         }
     }
 }
