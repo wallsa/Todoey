@@ -11,4 +11,6 @@ import Foundation
 struct K {
     
     static let cellName = "ToDoItemCell"
+    static let categoryCell = "categoryCell"
+    static let itensSegue = "goToItems"
 }
