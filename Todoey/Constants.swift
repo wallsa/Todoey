@@ -13,4 +13,5 @@ struct K {
     static let cellName = "ToDoItemCell"
     static let categoryCell = "categoryCell"
     static let itensSegue = "goToItems"
+    static let noCategory = "No Categories added yet"
 }

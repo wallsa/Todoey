@@ -9,5 +9,8 @@ import Foundation
 import RealmSwift
 
 class Category: Object {
-    <#code#>
+    @objc dynamic var name:String = ""
+    let items = List<Item>()
+//cada categoria pode ter um numero de items, que é uma List de Item Objects
+//  let array = Array<Int>()
 }

@@ -14,7 +14,6 @@
 		E13E57A1284D888B00541B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13E57A0284D888B00541B1A /* Assets.xcassets */; };
 		E13E57A4284D888B00541B1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E13E57A2284D888B00541B1A /* LaunchScreen.storyboard */; };
 		E13E57AC284D8EF300541B1A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E57AB284D8EF300541B1A /* Constants.swift */; };
-		E13E57B72852C4FE00541B1A /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E13E57B52852C4FE00541B1A /* DataModel.xcdatamodeld */; };
 		E13E57DC2857A2D700541B1A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E57DB2857A2D700541B1A /* CategoryViewController.swift */; };
 		E18DC89F285FDC5300BF06B7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = E18DC89E285FDC5300BF06B7 /* Realm */; };
 		E18DC8A1285FDC5300BF06B7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E18DC8A0285FDC5300BF06B7 /* RealmSwift */; };
@@ -32,7 +31,6 @@
 		E13E57A3284D888B00541B1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E13E57A5284D888B00541B1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E13E57AB284D8EF300541B1A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		E13E57B62852C4FE00541B1A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E13E57DB2857A2D700541B1A /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		E18DC8A4285FE19200BF06B7 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E18DC8A6285FE1BC00BF06B7 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -86,9 +84,8 @@
 		E13E57B2284EC07C00541B1A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E13E57B52852C4FE00541B1A /* DataModel.xcdatamodeld */,
-				E18DC8A4285FE19200BF06B7 /* Item.swift */,
 				E18DC8A6285FE1BC00BF06B7 /* Category.swift */,
+				E18DC8A4285FE19200BF06B7 /* Item.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,7 +187,6 @@
 			files = (
 				E13E579C284D888A00541B1A /* TodoListViewController.swift in Sources */,
 				E13E5798284D888A00541B1A /* AppDelegate.swift in Sources */,
-				E13E57B72852C4FE00541B1A /* DataModel.xcdatamodeld in Sources */,
 				E13E579A284D888A00541B1A /* SceneDelegate.swift in Sources */,
 				E18DC8A5285FE19200BF06B7 /* Item.swift in Sources */,
 				E13E57DC2857A2D700541B1A /* CategoryViewController.swift in Sources */,
@@ -437,19 +433,6 @@
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		E13E57B52852C4FE00541B1A /* DataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				E13E57B62852C4FE00541B1A /* DataModel.xcdatamodel */,
-			);
-			currentVersion = E13E57B62852C4FE00541B1A /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = E13E578C284D888A00541B1A /* Project object */;
 }

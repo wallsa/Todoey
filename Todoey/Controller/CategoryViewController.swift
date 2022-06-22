@@ -6,15 +6,15 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
+
 
 class CategoryViewController: UITableViewController {
     
+    let realm = try! Realm()
+// new collection type
+    var categories:Results<Category>?
     
-    
-    var categories = [Category]()
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +37,15 @@ class CategoryViewController: UITableViewController {
         var textField = UITextField()
     
         let action = UIAlertAction(title: "Add Category", style: .default) { action in
-            let newCategory = Category(context: self.context)
+            let newCategory = Category()
             
             guard let safeCate = textField.text else {return}
             
             newCategory.name = safeCate
-            self.categories.append(newCategory)
+//          O datatype Results - Results is an auto-updating container type in Realm returned from object queries.
+//          self.categories.append(newCategory)
             
-            self.saveCategories()
+            self.save(newCategory)
             
         }
         alert.addTextField { alertTextField in
@@ -61,40 +62,37 @@ class CategoryViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return categories?.count ?? 1
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: K.categoryCell)
-        cell.textLabel?.text = categories[indexPath.row].name
-        
+        cell.textLabel?.text = categories?[indexPath.row].name ?? K.noCategory
         return cell
     }
     
-//MARK: - Core Data
+//MARK: - Realm Data
     
-    func saveCategories(){
+    func save(_ category:Category){
         
         do{
-            try context.save()
+            try realm.write({
+                realm.add(category)
+            })
         }catch{
             print(error)
         }
         self.tableView.reloadData()
     }
-    //                                                default value of function
-    func loadCategories(with request:NSFetchRequest<Category> = Category.fetchRequest()){
-        do{
-            categories = try context.fetch(request)
-        }catch{
-            print(error)
-        }
+
+    func loadCategories(){
+     
+        categories = realm.objects(Category.self)
         tableView.reloadData()
-    }
+    
 }
 
 //MARK: - TableView Delegate
 
-extension CategoryViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: K.itensSegue, sender: self)
     }
@@ -102,7 +100,8 @@ extension CategoryViewController{
         let destinationVC = segue.destination as! TodoListViewController
         
         guard let indexPath = tableView.indexPathForSelectedRow else {return}
-        destinationVC.selectedCategory = categories[indexPath.row]
+        destinationVC.selectedCategory = categories?[indexPath.row]
     }
 }
+
 
