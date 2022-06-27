@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
 // new collection type
@@ -25,7 +25,7 @@ class CategoryViewController: UITableViewController {
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-        
+        tableView.rowHeight = 80.0
         loadCategories()
     }
 //MARK: - Add new Categories
@@ -64,12 +64,13 @@ class CategoryViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories?.count ?? 1
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: K.categoryCell)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categories?[indexPath.row].name ?? K.noCategory
         return cell
     }
-    
+     
 //MARK: - Realm Data
     
     func save(_ category:Category){
@@ -88,8 +89,20 @@ class CategoryViewController: UITableViewController {
      
         categories = realm.objects(Category.self)
         tableView.reloadData()
+    }
+//MARK: - Delete Data from Swipe
     
-}
+    override func updateModel(_ indexPath: IndexPath) {
+        guard let categoryForDelete = categories?[indexPath.row] else {return}
+        do{
+            try self.realm.write{
+                self.realm.delete(categoryForDelete)
+            }
+        }catch{
+            print(error)
+        }
+    }
+
 
 //MARK: - TableView Delegate
 
@@ -102,6 +115,9 @@ class CategoryViewController: UITableViewController {
         guard let indexPath = tableView.indexPathForSelectedRow else {return}
         destinationVC.selectedCategory = categories?[indexPath.row]
     }
+    
+    
 }
+
 
 

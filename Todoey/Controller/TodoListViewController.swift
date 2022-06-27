@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     let realm = try! Realm()
@@ -19,6 +19,7 @@ class TodoListViewController: UITableViewController {
         //assim nos certificamos que só carregaremos nossa view quando há valor para a categoria selecionada
         //Excluindo o risco de nossa aplicacao quebrar
         didSet{
+            
             loadItens()
         }
     }
@@ -36,12 +37,7 @@ class TodoListViewController: UITableViewController {
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
         navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-        
-        
-        
-        
-        
-        
+        tableView.rowHeight = 80.0
         
     }
     //MARK: - Table View DataSource
@@ -52,7 +48,7 @@ class TodoListViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: K.cellName)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = todoItems?[indexPath.row]{
             cell.textLabel?.text = item.title
@@ -122,7 +118,7 @@ class TodoListViewController: UITableViewController {
         present(alert, animated: true)
         
     }
-    //MARK: - CoreData
+    //MARK: - REALM
     
     func save(_ item:Item){
         do{
@@ -142,6 +138,17 @@ class TodoListViewController: UITableViewController {
         
         tableView.reloadData()
     }
+    override func updateModel(_ indexPath: IndexPath) {
+        guard let itemForDelete = todoItems?[indexPath.row] else {return}
+        do{
+            try self.realm.write{
+                self.realm.delete(itemForDelete)
+            }
+        }catch{
+            print(error)
+        }
+    }
+    
 }
 //MARK: - Search Bar Methods
 
