@@ -18,8 +18,6 @@
 		E13E57DC2857A2D700541B1A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13E57DB2857A2D700541B1A /* CategoryViewController.swift */; };
 		E18DC89F285FDC5300BF06B7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = E18DC89E285FDC5300BF06B7 /* Realm */; };
 		E18DC8A1285FDC5300BF06B7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E18DC8A0285FDC5300BF06B7 /* RealmSwift */; };
-		E18DC8A5285FE19200BF06B7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18DC8A4285FE19200BF06B7 /* Item.swift */; };
-		E18DC8A7285FE1BC00BF06B7 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18DC8A6285FE1BC00BF06B7 /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,8 +32,6 @@
 		E13E57AB284D8EF300541B1A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E13E57B62852C4FE00541B1A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E13E57DB2857A2D700541B1A /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
-		E18DC8A4285FE19200BF06B7 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		E18DC8A6285FE1BC00BF06B7 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,8 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				E13E57B52852C4FE00541B1A /* DataModel.xcdatamodeld */,
-				E18DC8A4285FE19200BF06B7 /* Item.swift */,
-				E18DC8A6285FE1BC00BF06B7 /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -192,10 +186,8 @@
 				E13E5798284D888A00541B1A /* AppDelegate.swift in Sources */,
 				E13E57B72852C4FE00541B1A /* DataModel.xcdatamodeld in Sources */,
 				E13E579A284D888A00541B1A /* SceneDelegate.swift in Sources */,
-				E18DC8A5285FE19200BF06B7 /* Item.swift in Sources */,
 				E13E57DC2857A2D700541B1A /* CategoryViewController.swift in Sources */,
 				E13E57AC284D8EF300541B1A /* Constants.swift in Sources */,
-				E18DC8A7285FE1BC00BF06B7 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
