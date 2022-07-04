@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 
 class CategoryViewController: SwipeTableViewController {
@@ -25,7 +26,7 @@ class CategoryViewController: SwipeTableViewController {
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-        tableView.rowHeight = 80.0
+        
         loadCategories()
     }
 //MARK: - Add new Categories
@@ -42,6 +43,7 @@ class CategoryViewController: SwipeTableViewController {
             guard let safeCate = textField.text else {return}
             
             newCategory.name = safeCate
+            newCategory.color = UIColor.randomFlat().hexValue()
 //          O datatype Results - Results is an auto-updating container type in Realm returned from object queries.
 //          self.categories.append(newCategory)
             
@@ -67,7 +69,14 @@ class CategoryViewController: SwipeTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
-        cell.textLabel?.text = categories?[indexPath.row].name ?? K.noCategory
+        if let category = categories?[indexPath.row] {
+            cell.textLabel?.text = category.name
+            guard let categoryColour = UIColor(hexString: category.color) else {fatalError("SOmething goes wrong")}
+            cell.backgroundColor = categoryColour
+            cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
+            
+        }
+       
         return cell
     }
      

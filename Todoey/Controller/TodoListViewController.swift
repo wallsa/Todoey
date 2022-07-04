@@ -7,12 +7,14 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     let realm = try! Realm()
     var todoItems:Results<Item>?
+    
     
     var selectedCategory:Category?{
         //é executado quando o nosso valor é setado
@@ -23,6 +25,9 @@ class TodoListViewController: SwipeTableViewController {
             loadItens()
         }
     }
+
+    
+//MARK: - Life Cycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +37,24 @@ class TodoListViewController: SwipeTableViewController {
         let appearance = UINavigationBarAppearance()
         
         appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = UIColor.darkGray
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-        tableView.rowHeight = 80.0
+        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let colourHex = selectedCategory?.color{
+            title = selectedCategory!.name
+            guard let navBar = navigationController?.navigationBar else {fatalError("Navigation Controller does not exist")}
+            if let navBarColour = UIColor(hexString: colourHex){
+                navBar.backgroundColor = navBarColour
+                searchBar.barTintColor = navBarColour
+                navBar.tintColor = ContrastColorOf(navBarColour, returnFlat: true)
+                navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navBarColour, returnFlat: true)]
+            }
+            
+    }
+        
+        
         
     }
     //MARK: - Table View DataSource
@@ -52,6 +69,11 @@ class TodoListViewController: SwipeTableViewController {
         
         if let item = todoItems?[indexPath.row]{
             cell.textLabel?.text = item.title
+            if let colour = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)){
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
+            
             //Ternary Operator
             // value = condition ? valueIfTrue : valueIfFalse
             

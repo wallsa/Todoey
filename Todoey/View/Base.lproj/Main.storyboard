@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Itens📖-->
+        <!--Itens-->
         <scene sceneID="M1i-6r-3bJ">
             <objects>
                 <tableViewController id="fxS-x6-q5j" customClass="TodoListViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
@@ -38,9 +38,8 @@
                             <outlet property="delegate" destination="fxS-x6-q5j" id="kS1-hP-09H"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Itens📖" id="2Gb-wl-LKd">
+                    <navigationItem key="navigationItem" title="Itens" id="2Gb-wl-LKd">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="lnb-T2-dfB">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="fxS-x6-q5j" id="c03-B9-9fz"/>
                             </connections>
@@ -59,8 +58,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uwR-mA-ZYp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NFK-oE-KWI">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="NFK-oE-KWI">
+                        <rect key="frame" x="0.0" y="44" width="414" height="104"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
